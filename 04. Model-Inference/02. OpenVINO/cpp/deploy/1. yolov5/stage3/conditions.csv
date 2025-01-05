@@ -1,7 +1,0 @@
-模型名称,数据类型,设备,NMS后处理,输出个数,是否支持
-YOLOv5,fp16,CPU,集成在网络结构中,1,是
-YOLOv5,int8,CPU,集成在网络结构中,1,否
-YOLOv5,int8,CPU,自己写,1,是
-YOLOv5,fp16,GPU,自己写,1,是
-YOLOv5,int8,GPU,自己写,1,否
-YOLOv5,int8,GPU,自己写而且还要写乘以anchor那些,3,是
