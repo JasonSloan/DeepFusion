@@ -117,7 +117,7 @@ This repository includes original algorithms and methods developed exclusively b
 
 ### TODO LIST
 
-- [ ] YOlOv11-pruning
+- [x] YOlOv11-pruning
 - [ ] C++ code implementation of SGBM
 - [ ] Further study of Reinforcement Learning
 - [ ] C++ version of YOLO-pose inference code uploading
