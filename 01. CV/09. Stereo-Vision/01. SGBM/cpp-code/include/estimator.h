@@ -5,6 +5,7 @@
 class SGBMEstimatorInterface{
 public:
     virtual void estimate(std::string& source) = 0;
+    virtual void compute_time_cost() = 0;
 };
 
 std::shared_ptr<SGBMEstimatorInterface> createSGBMEstimator(

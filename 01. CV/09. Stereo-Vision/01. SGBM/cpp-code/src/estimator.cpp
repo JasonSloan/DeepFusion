@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <chrono>
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -13,6 +14,10 @@
 using namespace std;
 using namespace cv;
 using json=nlohmann::json;
+
+using time_point = chrono::high_resolution_clock;
+template <typename Rep, typename Period>
+float micros_cast(const std::chrono::duration<Rep, Period>& d) {return static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(d).count()) / 1000.;};
 
 
 class SGBMEstimator: public SGBMEstimatorInterface{
@@ -320,6 +325,7 @@ public:
             spdlog::info("\033[33mYou are using two-usb stereo camera, remember to put the left camera index at front when passing the 'source' parameter.\033[0m");
 
         int width = size.width;
+        int count = 0;
         while (true) {
             std::vector<cv::Mat> frames;
             for (auto& cap : caps) {
@@ -333,6 +339,7 @@ public:
             cv::hconcat(frames, frame);
 
             // 分割左右图像
+            auto tiktok0 = time_point::now();
             cv::Mat imgL = frame(cv::Rect(0, 0, width, frame.rows));
             cv::Mat imgR = frame(cv::Rect(width, 0, width, frame.rows));
 
@@ -345,6 +352,8 @@ public:
             // 计算视差
             cv::Mat disparity;
             stereo_->compute(imgL_rectified, imgR_rectified, disparity);
+            auto tiktok1 = time_point::now();
+            records.push_back(micros_cast(tiktok1 - tiktok0));
 
             // 动态调整参数
             if (dynamic_tune_) create_stereo_sgbm();
@@ -379,6 +388,15 @@ public:
         cv::destroyAllWindows();
     };
 
+    virtual void compute_time_cost() override{
+        float sum = 0;
+        for (int i = 0; i < records.size(); ++i) 
+            sum += records[i];
+        float avg = sum / records.size();
+
+        spdlog::info("----> Total {} frames, average time cost: {} ms", records.size(), avg);
+    }
+
 private:
     bool is_bar_set_{false};
     bool use_video_;
@@ -404,6 +422,8 @@ private:
     cv::Mat R_;
     cv::Mat T_;
     shared_ptr<cv::StereoSGBM> stereo_;
+    
+    vector<float> records;
 };
 
 

@@ -41,5 +41,6 @@ int main(){
         config_path
     );
     estimator->estimate(source);
+    estimator->compute_time_cost();
     return 0;
 }
