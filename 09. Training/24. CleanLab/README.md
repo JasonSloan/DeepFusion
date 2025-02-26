@@ -1,5 +1,7 @@
 
 
+**官方教程: https://docs.cleanlab.ai/stable/tutorials/object_detection.html**
+
 **代码见本文件夹下的main.py: 使用cleanlab结合YOLO模型筛选错标或者难例样本**
 
 
