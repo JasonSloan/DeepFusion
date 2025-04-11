@@ -56,6 +56,40 @@ if __name__ == "__main__":
     process_images_in_parallel(image_paths, num_threads)
 ```
 
+## 3. 多线程之间共享进度条
+
+```python
+from multiprocessing.pool import ThreadPool
+from itertools import repeat
+import time
+import random
+from tqdm import tqdm
+
+def verify_image_label(args):
+    im_file, prefix = args
+    time.sleep(random.uniform(0.1, 0.5))
+    return im_file, 1
+
+
+if __name__ == "__main__":
+    im_files = [f'{i}.jpg' for i in range(1000)]
+    nm = 0
+    desc = 'Scanning'
+    with ThreadPool(8) as pool:
+        results = pool.imap(
+            func=verify_image_label,
+            iterable=zip(
+                im_files,
+                repeat("prefix"),
+            ),
+        )
+        pbar = tqdm(results, desc=desc, total=len(im_files))
+        for im_file, nm_f in pbar:
+            nm += nm_f
+            pbar.desc = f"{desc} {nm} images"
+        pbar.close()
+```
+
 ## 3. 普通多进程 
 
 ```python
