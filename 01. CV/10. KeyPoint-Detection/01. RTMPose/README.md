@@ -1,6 +1,6 @@
 ![](assets/1.jpg)
 
-**RTMPose主要采用了SimCC的将关键点回归任务变为分类任务的思想,模型最终分别预测x坐标的`[batch_size, number_keypoints, number_bins]`以及y坐标的`[batch_size, number_keypoints, number_bins]`两个矩阵**
+**RTMPose主要采用了SimCC的将关键点回归任务变为分类任务的思想,模型最终分别预测x坐标的`[batch_size, number_keypoints, number_bins]`以及y坐标的`[batch_size, number_keypoints, number_bins]`两个矩阵, 理解RTMPose的关键在于理解SimCC, 只要理解了SimCC, RTMPose就很容易理解了**
 
 
 
@@ -14,14 +14,16 @@
 
 * 骨干网络: CSPNeXt, 特征提取, 没什么特别的
 * 7x7Conv: 没什么特别的, 作者试验出来发现在后面采取更大卷积核能提高mAP
-* FC: 7x7卷积后, 得到的feature map数量为`[H, W, 68]`, 然后要进行flatten操作, 变为`[HxW, 68]`, 再transpose变为`[68, HxW]`, 然后做一个全连接, 变为`[68, 512]`
-* GAU: Gate Attention Unit, Transformer self-attention注意力机制的变体
+* FC: 7x7卷积后, 得到的feature map数量为`[H, W, 68]`, 然后要进行flatten操作, 变为`[HxW, 68]`, 再transpose变为`[68, HxW]`, 然后做两次全连接, 变为两个`[68, 512]`, 含义为这68个关键点在x轴和y轴上每个关键点在这512个bins的概率分布
+* GAU: Gate Attention Unit, Transformer self-attention注意力机制的变体, 不改变输入维度
 
-**对于推理阶段: **
+**对于推理阶段:**
 
-循环遍历这68个点, 然后取这512个位置的概率最大的bin的位置为最终的预测位置, 例如, 概率最大的bin序号为50, 那么预测位置在模型输入尺寸`(256x256)`下为`50/2=25`
+循环遍历这68个点, 然后取这512个位置的概率最大的bin的位置为最终的预测坐标
 
-**对于训练阶段: **
+例如, 对于0号关键点在x轴概率最大的bin序号为50, 那么0号关键点预测的x轴坐标为`50/2=25`(这里除以2是因为512个bins是模型输入尺寸256的2倍)
+
+**对于训练阶段:**
 
 假设模型输入大小与原图大小一致, 假如第0号关键点的真实标注坐标为`(100, 150)`, 那么100落在第`100/256x512=200`个bin处, 150落在第`150/256x512=300`个bin处, 将该真实点变为一个高斯分布的软标签, 也就是说x坐标的第`198 199 200 201 202`处均有概率, y坐标的第`298 299 300 301 302`处均有概率, 然后和预测值进行分类损失计算
 
