@@ -26,6 +26,10 @@
 
 
 
+**引用: [pytorch-lora](https://github.com/hkproj/pytorch-lora/tree/main)**
+
+
+
 
 
 
