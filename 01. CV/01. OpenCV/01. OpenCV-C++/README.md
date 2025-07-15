@@ -89,6 +89,15 @@ vim OpenCV.conf 	# 写入 /path/to/your/opencv/installation/dir/lib
 sudo ldconfig 		# 此时opencv的动态库可以被系统链接到
 ```
 
+无法找到libswresample.so问题:
+
+![](assets/2.jpg)
+
+```bash
+# 设置一下系统查找动态库路径
+export LD_LIBRARY_PATH=/path/to/your/ffmpeg-build/lib:$LD_LIBRARY_PATH
+```
+
 
 
 
