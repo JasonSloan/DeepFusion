@@ -1,4 +1,18 @@
+编译安装ffmpeg
 
+```bash
+apt update && apt install nasm
+git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg
+cd ffmpeg
+git checkout n7.0  # 切换到7.0版本的
+./configure --prefix=/path/to/your/install/dir \
+            --enable-shared \
+            --disable-static \
+            --extra-ldflags=-Wl,-rpath=\$\$ORIGIN/../lib
+make ${nproc} install
+```
+
+一些简单用法
 
 ```bash
 # 截取保存视频片段
