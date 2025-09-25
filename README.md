@@ -1,4 +1,4 @@
-<h1 align="center">DeepFusion</h1>
+LLM<h1 align="center">DeepFusion</h1>
 
 ## What’s Inside
 
@@ -113,6 +113,7 @@ For easier navigation of this repository, consider using the Google [**Octotree*
 This repository includes original algorithms and methods developed exclusively by the author. These contributions represent novel ideas and unique implementations not derived or copied from existing work. If you use these original elements in your research or projects, please cite this repository to acknowledge the effort and innovation behind them.
 
 - [x] YOLOv8-Pruning
+- [x] YOLOv11-Pruning
 - [x] Classic Reinforcement Learning code reimplementation.
 
 ### TODO LIST
@@ -120,5 +121,6 @@ This repository includes original algorithms and methods developed exclusively b
 - [x] YOlOv11-pruning
 - [x] C++ code implementation of SGBM
 - [ ] Further study of Reinforcement Learning
-- [ ] C++ version of YOLO-pose inference code uploading
-- [ ] ​
+- [x] C++ version of YOLO-pose inference code uploading
+- [x] RTMPose inference code uploading
+- [ ] Further study of LLM
