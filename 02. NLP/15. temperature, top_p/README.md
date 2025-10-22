@@ -1,0 +1,1 @@
+[Temperature、top_p理解](https://aviralrma.medium.com/understanding-llm-parameters-c2db4b07f0ee)
