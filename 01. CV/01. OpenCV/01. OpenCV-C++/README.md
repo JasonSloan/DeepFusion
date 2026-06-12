@@ -37,6 +37,7 @@ cd opencv-4.12.0 && mkdir build && cd build
 cmake .. \
     -D CMAKE_BUILD_TYPE=Release \
 	-D CMAKE_INSTALL_PREFIX=/path/to/your/installation/dir \
+    -D OPENCV_DOWNLOAD_MIRROR_ID=gitcode \
 # (2) 使用opencv_contrib模块选项
 	-D OPENCV_EXTRA_MODULES_PATH=/path/to/opencv_contrib-4.12.0/modules \
 # (3) 使用预编译ffmpeg选项
